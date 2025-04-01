@@ -9,6 +9,8 @@ language = languageStr.split(', ')
 states = statesStr.split(', ')
 acceptingStates = accept.split(', ')
 transitions = []
+dfa_transitions = {}
+dfa = {}
 
 print("\n Fill in the transition table for the DFA, using <tab>.\n")
 print("\t", end="")
@@ -25,4 +27,19 @@ for state in states:
 print("\n The DFA stored as an array of transitions:\n")
 print(transitions)
 
-    
+for i, state in enumerate(states):
+    dfa_transitions[state] = {language[j]: transitions[i][j] for j in range(len(language))}
+
+# Construct the DFA object
+dfa = {
+    "states": states,
+    "alphabet": language,
+    "start_state": startState,
+    "accepting_states": acceptingStates,
+    "transitions": dfa_transitions
+}
+
+# Print the structured DFA dictionary
+print("\nThe DFA is stored as:\n")
+import pprint
+pprint.pprint(dfa)
