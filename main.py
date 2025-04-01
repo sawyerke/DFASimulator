@@ -10,6 +10,7 @@ states = statesStr.split(', ')
 acceptingStates = accept.split(', ')
 transitions = []
 
+print("\n Fill in the transition table for the DFA, using <tab>.\n")
 print("\t", end="")
 for symbol in language:
     print(symbol + "\t", end="")
@@ -21,7 +22,7 @@ for state in states:
     x = y.split('\t')
     transitions.append(x)
 
-print("\n")
+print("\n The DFA stored as an array of transitions:\n")
 print(transitions)
 
     
