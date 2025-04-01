@@ -8,14 +8,12 @@ languageStr = input("\n Enter the set of input symbols separated by \",\": \n")
 language = languageStr.split(', ')
 states = statesStr.split(', ')
 acceptingStates = accept.split(', ')
-
 transitions = []
-
 
 print("\t", end="")
 for symbol in language:
     print(symbol + "\t", end="")
-print()
+print("\n\n")
 
 for state in states:
     print(state, end="")
@@ -23,10 +21,7 @@ for state in states:
     x = y.split('\t')
     transitions.append(x)
 
-
-
-
-
+print("\n")
 print(transitions)
 
     
