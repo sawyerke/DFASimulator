@@ -4,7 +4,7 @@ import pprint
 def sim_dfa(dfa, input_string):
     current_state = dfa["start_state"]
     print("\nStarting DFA simulation\n")
-    print("Input string is ", input_string)
+    print("Input string is:", input_string)
     print(f"\nInitial state: {current_state}\n")
 
     for index, symbol in enumerate(input_string):
