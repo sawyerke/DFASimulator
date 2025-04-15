@@ -1,0 +1,7 @@
+q_even, q_odd
+q_even
+q_even
+0, 1
+q_odd q_even
+q_even q_odd
+
