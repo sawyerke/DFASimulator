@@ -111,7 +111,7 @@ dfa = {
 print("\nThe DFA is stored as:\n")
 pprint.pprint(dfa)
 
-input_string = "1010101000101"
+input_string = input("\nEnter a string to test on the DFA")
 for i, symbol in enumerate(input_string):
     if symbol not in language:
         raise ValueError(f"Invalid symbol '{symbol}' at position {i} in input string. Allowed symbols: {language}")
