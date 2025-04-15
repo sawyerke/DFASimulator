@@ -8,7 +8,7 @@ states = ""
 language = ""
 startState = ""
 acceptingStates = ""
-supportedSeeds = {"substring_001.txt", "remainder_5.txt"}
+supportedSeeds = {"substring_001.txt", "remainder_5.txt", "even_zeros.txt"}
 
 # assume that the dfa and input string are not invalid
 def sim_dfa(dfa, input_string):
