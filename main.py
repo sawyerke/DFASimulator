@@ -68,6 +68,8 @@ def standard_input():
                 raise ValueError(f"Transition error for state '{state}': Target state '{target_state}' is not a valid state.")
         transitions.append(x)
 
+    return states, startState, acceptingStates, language, transitions
+
 def seed_input():
     for file in supportedSeeds:
         print(file)
@@ -87,11 +89,13 @@ def seed_input():
         x = y.split('\t')
         transitions.append(x)
 
+    return states, startState, acceptingStates, language, transitions
+
 seed = input("\n Would you like to use a seeded DFA? (y/n) \n")
 if seed == "y":
-    seed_input()
+    states, startState, acceptingStates, language, transitions = seed_input()
 else:
-    standard_input()
+    states, startState, acceptingStates, language, transitions = standard_input()
 
 
 print("\n The DFA stored as an array of transitions:\n")
