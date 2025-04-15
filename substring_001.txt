@@ -2,7 +2,7 @@ qs, q0, q00, q001
 qs
 q001
 0, 1
-q0  qs 
+q0 qs 
 q00 qs
 q00 q001
-q001    q001
+q001 q001

@@ -71,22 +71,23 @@ def standard_input():
     return states, startState, acceptingStates, language, transitions
 
 def seed_input():
+    print("")
     for file in supportedSeeds:
         print(file)
     file = input("\n Please enter the designated seeded DFA: \n")
     f = open(file, "r")
 
-    statesStr = f.readline()
+    statesStr = f.readline().strip()
     states = [s.strip() for s in statesStr.split(', ')]
-    startState = f.readline()
-    accept = f.readline()
+    startState = f.readline().strip()
+    accept = f.readline().strip()
     acceptingStates = [s.strip() for s in accept.split(', ')]
-    languageStr = f.readline()
+    languageStr = f.readline().strip()
     language = [s.strip() for s in languageStr.split(', ')]
 
     for state in states:
-        y = f.readline()
-        x = y.split('\t')
+        y = f.readline().strip()
+        x = y.split(' ')
         transitions.append(x)
 
     return states, startState, acceptingStates, language, transitions
