@@ -1,5 +1,15 @@
 import pprint
 
+
+transitions = []
+dfa_transitions = {}
+dfa = {}
+states = ""
+language = ""
+startState = ""
+acceptingStates = ""
+supportedSeeds = {"substring_001.txt", "remainder_5.txt"}
+
 # assume that the dfa and input string are not invalid
 def sim_dfa(dfa, input_string):
     current_state = dfa["start_state"]
@@ -20,47 +30,69 @@ def sim_dfa(dfa, input_string):
         print("The string is REJECTED by the DFA.\n")
         return False
 
+def standard_input():
+    statesStr = input("\n Enter the set of states separated by \", \": \n")
+    states = [s.strip() for s in statesStr.split(', ')]
+    if len(states) != len(set(states)):
+        raise ValueError("Duplicate states found.")
 
-statesStr = input("\n Enter the set of states separated by \", \": \n")
-states = [s.strip() for s in statesStr.split(', ')]
-if len(states) != len(set(states)):
-    raise ValueError("Duplicate states found.")
+    startState = input("\n Which state is the starting state? \n")
+    if startState not in states:
+        raise ValueError(f"Start state '{startState}' is not a valid state.")
 
-startState = input("\n Which state is the starting state? \n")
-if startState not in states:
-    raise ValueError(f"Start state '{startState}' is not a valid state.")
+    accept = input("\n Enter the set of accepting states separated by \", \": \n")
+    acceptingStates = [s.strip() for s in accept.split(', ')]
+    for acc in acceptingStates:
+        if acc not in states:
+            raise ValueError(f"Accepting state '{acc}' is not a valid state.")
 
-accept = input("\n Enter the set of accepting states separated by \", \": \n")
-acceptingStates = [s.strip() for s in accept.split(', ')]
-for acc in acceptingStates:
-    if acc not in states:
-        raise ValueError(f"Accepting state '{acc}' is not a valid state.")
+    languageStr = input("\n Enter the set of input symbols separated by \", \": \n")
+    language = [s.strip() for s in languageStr.split(', ')]
+    if len(language) != len(set(language)):
+        raise ValueError("Duplicate input symbols found.")
 
-languageStr = input("\n Enter the set of input symbols separated by \", \": \n")
-language = [s.strip() for s in languageStr.split(', ')]
-if len(language) != len(set(language)):
-    raise ValueError("Duplicate input symbols found.")
+    print("\n Fill in the transition table for the DFA, using <tab>.\n")
+    print("\t", end="")
+    for symbol in language:
+        print(symbol + "\t", end="")
+    print("\n\n")
 
-transitions = []
-dfa_transitions = {}
-dfa = {}
+    for state in states:
+        print(state, end="")
+        y = input("\t")
+        x = y.split('\t')
+        if len(x) != len(language):
+            raise ValueError(f"Transition error for state '{state}': Expected {len(language)} transitions (one for each symbol), but got {len(x)}.")
+        for target_state in x:
+            if target_state not in states:
+                raise ValueError(f"Transition error for state '{state}': Target state '{target_state}' is not a valid state.")
+        transitions.append(x)
 
-print("\n Fill in the transition table for the DFA, using <tab>.\n")
-print("\t", end="")
-for symbol in language:
-    print(symbol + "\t", end="")
-print("\n\n")
+def seed_input():
+    for file in supportedSeeds:
+        print(file)
+    file = input("\n Please enter the designated seeded DFA: \n")
+    f = open(file, "r")
 
-for state in states:
-    print(state, end="")
-    y = input("\t")
-    x = y.split('\t')
-    if len(x) != len(language):
-        raise ValueError(f"Transition error for state '{state}': Expected {len(language)} transitions (one for each symbol), but got {len(x)}.")
-    for target_state in x:
-        if target_state not in states:
-            raise ValueError(f"Transition error for state '{state}': Target state '{target_state}' is not a valid state.")
-    transitions.append(x)
+    statesStr = f.readline()
+    states = [s.strip() for s in statesStr.split(', ')]
+    startState = f.readline()
+    accept = f.readline()
+    acceptingStates = [s.strip() for s in accept.split(', ')]
+    languageStr = f.readline()
+    language = [s.strip() for s in languageStr.split(', ')]
+
+    for state in states:
+        y = f.readline()
+        x = y.split('\t')
+        transitions.append(x)
+
+seed = input("\n Would you like to use a seeded DFA? (y/n) \n")
+if seed == "y":
+    seed_input()
+else:
+    standard_input()
+
 
 print("\n The DFA stored as an array of transitions:\n")
 print(transitions)
