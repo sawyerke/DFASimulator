@@ -111,8 +111,16 @@ dfa = {
 print("\nThe DFA is stored as:\n")
 pprint.pprint(dfa)
 
-input_string = input("\nEnter a string to test on the DFA")
-for i, symbol in enumerate(input_string):
-    if symbol not in language:
-        raise ValueError(f"Invalid symbol '{symbol}' at position {i} in input string. Allowed symbols: {language}")
-sim_dfa(dfa, input_string)
+
+
+while True:
+    input_string = input("\nEnter a string to test on the DFA (or type 'exit' to quit): ")
+    if input_string.lower() == "exit":
+        print("Exiting DFA simulation.")
+        break
+
+
+    for i, symbol in enumerate(input_string):
+        if symbol not in language:
+            raise ValueError(f"Invalid symbol '{symbol}' at position {i} in input string. Allowed symbols: {language}")
+    sim_dfa(dfa, input_string)
