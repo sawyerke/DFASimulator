@@ -21,15 +21,26 @@ def sim_dfa(dfa, input_string):
         return False
 
 
-# FIXME: need error checking to make sure all inputs are valid
-statesStr = input("\n Enter the set of states separated by \",\": \n")
-startState = input("\n Which state is the starting state? \n")
-accept = input("\n Enter the set of accepting states separated by \",\": \n")
-languageStr = input("\n Enter the set of input symbols separated by \",\": \n")
+statesStr = input("\n Enter the set of states separated by \", \": \n")
+states = [s.strip() for s in statesStr.split(', ')]
+if len(states) != len(set(states)):
+    raise ValueError("Duplicate states found.")
 
-language = languageStr.split(', ')
-states = statesStr.split(', ')
-acceptingStates = accept.split(', ')
+startState = input("\n Which state is the starting state? \n")
+if startState not in states:
+    raise ValueError(f"Start state '{startState}' is not a valid state.")
+
+accept = input("\n Enter the set of accepting states separated by \", \": \n")
+acceptingStates = [s.strip() for s in accept.split(', ')]
+for acc in acceptingStates:
+    if acc not in states:
+        raise ValueError(f"Accepting state '{acc}' is not a valid state.")
+
+languageStr = input("\n Enter the set of input symbols separated by \", \": \n")
+language = [s.strip() for s in languageStr.split(', ')]
+if len(language) != len(set(language)):
+    raise ValueError("Duplicate input symbols found.")
+
 transitions = []
 dfa_transitions = {}
 dfa = {}
@@ -44,6 +55,11 @@ for state in states:
     print(state, end="")
     y = input("\t")
     x = y.split('\t')
+    if len(x) != len(language):
+        raise ValueError(f"Transition error for state '{state}': Expected {len(language)} transitions (one for each symbol), but got {len(x)}.")
+    for target_state in x:
+        if target_state not in states:
+            raise ValueError(f"Transition error for state '{state}': Target state '{target_state}' is not a valid state.")
     transitions.append(x)
 
 print("\n The DFA stored as an array of transitions:\n")
@@ -64,4 +80,7 @@ print("\nThe DFA is stored as:\n")
 pprint.pprint(dfa)
 
 input_string = "1010101000101"
+for i, symbol in enumerate(input_string):
+    if symbol not in language:
+        raise ValueError(f"Invalid symbol '{symbol}' at position {i} in input string. Allowed symbols: {language}")
 sim_dfa(dfa, input_string)
